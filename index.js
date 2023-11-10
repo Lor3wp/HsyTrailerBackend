@@ -1,5 +1,4 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const fs = require("fs");
 
 const uri =
   "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
@@ -11,7 +10,6 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true,
   },
-  tlsCAFile: "cacert.pem", // Path to CA certificate
 });
 
 async function run() {
