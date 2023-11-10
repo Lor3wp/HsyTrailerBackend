@@ -13,7 +13,7 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   ssl: true, // Enable SSL
   sslValidate: true, // Validate the certificate
-  sslCA: fs.readFileSync("./cacert.pem"), // Path to CA certificate
+  sslCA: [fs.readFileSync("cacert.pem")], // Path to CA certificate
   // Other SSL options
 });
 
