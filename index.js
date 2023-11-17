@@ -46,6 +46,7 @@ db.once('open', async () => {
       isAdapter: true,
       isPrepaid: false,
       date: new Date(),
+      expirationDate: new Date('2300, 10, 17'),
     }
     // { date: new Date(), station: 'Konala', product: 'trailer', reserved: false },
     // { date: new Date(), station: 'Kivistö', product: 'trailer', reserved: false },
@@ -85,7 +86,7 @@ app.use("/api/", availableDatesRoute);
 // -> tee väliaikainen varaus exiresAt ehdolla joka tuhoutuu vartin jälkeen
 // -> tarkista ettei asiakkaalla ole jo varausta sille päivälle (vain yksi varaus per asiakas per päivä)
 //
-// Lisää varaus Pavel
+// Lisää varaus Pavel 
 // -> lisää varaus tietoineen tietokantaan
 // -> poista väliaikainen varaus
 //
