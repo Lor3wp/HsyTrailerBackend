@@ -2,53 +2,73 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
+const availableDatesRoute = require('./routes/availableTimes');
+const CalendarEntry = require("./schema/CalendarEntry");
+const mongoose = require("mongoose");
+
 app.use(express.json());
 
-const uri =
-  "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+// Connect to MongoDB using Mongoose
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', async () => {
+  console.log('Connected to MongoDB');
+
+  // Insert test data
+  const testData = [
+    {
+      station: {
+        stationName: 'Konala',
+        address: 'Betonitie 3',
+      },
+      customerInfo: {
+        name: 'Karoliina',
+        lastName: 'Multas',
+        phoneNumber: '040123123',
+        email: 'karoliina@example.com',
+        address: 'Nihtitorpankuja 1',
+        zipCode: '02630',
+        city: 'Espoo',
+      },
+      timeSlot: '10-12',
+      product: {
+        price: 5,
+        name: 'trailer',
+      },
+      isAdapter: true,
+      isPrepaid: false,
+      date: new Date(),
+    }
+    // { date: new Date(), station: 'Konala', product: 'trailer', reserved: false },
+    // { date: new Date(), station: 'Kivistö', product: 'trailer', reserved: false },
+  ];
+
+  try {
+    await CalendarEntry.insertMany(testData);
+    console.log('Test data inserted successfully');
+
+    // Start the Express server after inserting test data
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Error inserting test data:', error);
+  }
 });
 
 app.get("/api/hello", (req, res) => {
-  dbHandshake();
   res.json({ moi: "moi" });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
-async function dbHandshake() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-
-    const database = client.db("HsyReservations"); // Replace with your actual database name
-    const collection = database.collection("Reservation"); // Replace with your actual collection name
-
-    // Query for documents with a "date" field matching "23.03.2023"
-    const query = { date: "23.03.2023" };
-    const result = await collection.find(query).toArray();
-
-    // Print the results
-    return result;
-    console.log("Results:");
-    console.log(result);
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
+app.use("/api/", availableDatesRoute);
 
 // HsyReservations.Reservation
 
