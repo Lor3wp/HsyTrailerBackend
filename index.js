@@ -5,12 +5,15 @@ const port = process.env.PORT || 3000;
 const reservedDatesRoute = require('./routes/reservedDates');
 const reservationInfo = require('./routes/reservationInfo');
 const deleteReservation = require('./routes/deleteReservation');
+const addTempReservation = require("./routes/addTempReservation");
+const addReservation = require("./routes/addReservation");
 const CalendarEntry = require("./schema/CalendarEntry");
 const mongoose = require("mongoose");
 
 app.use(express.json());
 
-const uri = "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
+const uri =
+  "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(uri, {
@@ -20,52 +23,19 @@ mongoose.connect(uri, {
 
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', async () => {
-  console.log('Connected to MongoDB');
-
-  // Insert test data
-  const testData = [
-    {
-      station: 'Ruskeasanta',
-      customerInfo: {
-        name: 'Karoliina',
-        lastName: 'Multas',
-        phoneNumber: '040123123',
-        email: 'sipuli@example.com',
-        address: 'Nihtitorpankuja 1',
-        zipCode: '02630',
-        city: 'Espoo',
-      },
-      timeSlot: '10-12',
-      product: 'trailer',
-      isAdapter: true,
-      isPrepaid: false,
-      date: new Date('2024, 10, 17'),
-      expirationDate: new Date('2300, 10, 17'),
-    }
-  ];
-
-  try {
-    await CalendarEntry.insertMany(testData);
-    console.log('Test data inserted successfully');
-
-    // Start the Express server after inserting test data
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (error) {
-    console.error('Error inserting test data:', error);
-  }
-});
-
-app.get("/api/hello", (req, res) => {
-  res.json({ moi: "moi" });
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", async () => {
+  console.log("Connected to MongoDB");
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 });
 
 app.use("/api/", reservedDatesRoute);
 app.use("/api/", reservationInfo);
 app.use("/api/", deleteReservation);
+app.use("/api/", addTempReservation);
+app.use("/api/", addReservation);
 // HsyReservations.Reservation
 
 // TODO: get and post methods
