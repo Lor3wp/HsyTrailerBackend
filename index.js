@@ -6,6 +6,7 @@ const reservedDatesRoute = require('./routes/reservedDates');
 const reservationInfo = require('./routes/reservationInfo');
 const deleteReservation = require('./routes/deleteReservation');
 const addTempReservation = require("./routes/addTempReservation");
+const deleteTempReservation = require("./routes/deleteTempReservation");
 const addReservation = require("./routes/addReservation");
 const CalendarEntry = require("./schema/CalendarEntry");
 const mongoose = require("mongoose");
@@ -35,6 +36,7 @@ app.use("/api/", reservedDatesRoute);
 app.use("/api/", reservationInfo);
 app.use("/api/", deleteReservation);
 app.use("/api/", addTempReservation);
+app.use("/api/", deleteTempReservation);
 app.use("/api/", addReservation);
 // HsyReservations.Reservation
 
