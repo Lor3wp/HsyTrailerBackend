@@ -1,7 +1,7 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const reservedDatesRoute = require('./routes/reservedDates');
 const reservationInfo = require('./routes/reservationInfo');
 const deleteReservation = require('./routes/deleteReservation');
