@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const CalendarEntry = require("../schema/CalendarEntry");
 
-router.delete("/deleteTempReservation/:uuid", async (req, res) => {
+router.delete("/delete-temp-reservation/:uuid", async (req, res) => {
   const { uuid } = req.params;
 
   try {

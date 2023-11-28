@@ -2,7 +2,7 @@ const CalendarEntry = require("../schema/CalendarEntry");
 const express = require("express");
 const router = express.Router();
 
-router.post("/addReservation", async (req, res) => {
+router.post("/add-reservation", async (req, res) => {
   const {
     station,
     customerInfo: {
