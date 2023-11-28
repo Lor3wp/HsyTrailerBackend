@@ -1,10 +1,9 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 8080;
-const reservedDatesRoute = require('./routes/reservedDates');
-const reservationInfo = require('./routes/reservationInfo');
-const deleteReservation = require('./routes/deleteReservation');
+const reservedDatesRoute = require("./routes/reservedDates");
+const reservationInfo = require("./routes/reservationInfo");
+const deleteReservation = require("./routes/deleteReservation");
 const addTempReservation = require("./routes/addTempReservation");
 const deleteTempReservation = require("./routes/deleteTempReservation");
 const addReservation = require("./routes/addReservation");
@@ -13,9 +12,12 @@ const mongoose = require("mongoose");
 
 app.use(express.json());
 
-const availableDatesRoute = require('./routes/availableTimes');
+const availableDatesRoute = require("./routes/availableTimes");
 
-
+const port = process.env.PORT || 1337;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 app.use(express.json());
 
 
@@ -32,9 +34,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", async () => {
   console.log("Connected to MongoDB");
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+
 });
 
 
