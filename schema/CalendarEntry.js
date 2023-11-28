@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const calendarEntrySchema = new mongoose.Schema({
   station: String,
+
   customerInfo: {
     name: String,
     lastName: String,
@@ -25,5 +26,6 @@ calendarEntrySchema.index(
 ); // 20 minutes in seconds
 
 const CalendarEntry = mongoose.model("calendarentries", calendarEntrySchema);
+
 
 module.exports = CalendarEntry;

@@ -13,8 +13,13 @@ const mongoose = require("mongoose");
 
 app.use(express.json());
 
-const uri =
-  "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
+const availableDatesRoute = require('./routes/availableTimes');
+
+
+app.use(express.json());
+
+
+const uri = "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(uri, {
@@ -31,6 +36,7 @@ db.once("open", async () => {
     console.log(`Server is running on port ${port}`);
   });
 });
+
 
 app.use("/api/", reservedDatesRoute);
 app.use("/api/", reservationInfo);
