@@ -11,7 +11,7 @@ router.delete("/delete-temp-reservation/:uuid", async (req, res) => {
     if (result.deletedCount === 1) {
       res.json({ message: "Temp reservation deleted successfully" });
     } else {
-      res.status(404).json({ message: "Reservation not found" });
+      res.status(404).json({ message: "Temporary reservation not found" });
     }
   } catch (error) {
     console.error(error);
@@ -20,3 +20,4 @@ router.delete("/delete-temp-reservation/:uuid", async (req, res) => {
 });
 
 module.exports = router;
+// change
