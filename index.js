@@ -14,7 +14,7 @@ app.use(express.json());
 
 const availableDatesRoute = require("./routes/availableTimes");
 
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
