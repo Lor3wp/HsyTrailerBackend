@@ -1,24 +1,18 @@
-const CalendarEntry = require("../schema/CalendarEntry");
-const express = require("express");
+const CalendarEntry = require('../schema/CalendarEntry');
+const express = require('express');
 const router = express.Router();
 
-router.post("/add-reservation", async (req, res) => {
+router.post('/add-reservation', async (req, res) => {
   const {
     station,
-    customerInfo: {
-      name,
-      lastName,
-      phoneNumber,
-      email,
-      address,
-      zipCode,
-      city,
-    },
+    customerInfo: { name, lastName, phoneNumber, email, address, zipCode, city },
     timeSlot,
     product,
     isAdapter,
     isPrepaid,
     date,
+    rating,
+    feedback,
     uuid,
   } = req.body;
 
@@ -38,6 +32,8 @@ router.post("/add-reservation", async (req, res) => {
     isAdapter,
     isPrepaid,
     date,
+    rating,
+    feedback,
   });
 
   try {
@@ -49,17 +45,15 @@ router.post("/add-reservation", async (req, res) => {
 
     if (updatedReservation) {
       res.status(200).json({
-        message: "Reservation updated successfully",
+        message: 'Reservation updated successfully',
         updatedReservation,
       });
     } else {
-      res
-        .status(404)
-        .json({ error: "Reservation not found with the specified uuid" });
+      res.status(404).json({ error: 'Reservation not found with the specified uuid' });
     }
   } catch (error) {
-    console.error("Error updating reservation:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error('Error updating reservation:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
