@@ -14,14 +14,14 @@ app.use(express.json());
 
 const availableDatesRoute = require("./routes/availableTimes");
 
-const port = process.env.PORT || 8080;
+require("dotenv").config();
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 app.use(express.json());
 
-
-const uri = "mongodb+srv://test:test@hsytrailer.oa2sewe.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.DATABASE_URL;
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(uri, {
