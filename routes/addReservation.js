@@ -55,7 +55,7 @@ router.post("/add-reservation", async (req, res) => {
     } else {
       res
         .status(404)
-        .json({ error: "Reservation not found with the specified email" });
+        .json({ error: "Reservation not found with the specified uuid" });
     }
   } catch (error) {
     console.error("Error updating reservation:", error);
