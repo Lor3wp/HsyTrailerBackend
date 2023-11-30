@@ -12,10 +12,10 @@ router.post("/add-temp-reservation", async (req, res) => {
       timeSlot,
       date,
       product,
+      isAdapter,
     });
 
     if (existingReservationsCount < 4) {
-      const isAdapter = false;
       const isPrepaid = false;
 
       // Create a default customerInfo object with TTLFillerData
@@ -65,8 +65,8 @@ router.post("/add-temp-reservation", async (req, res) => {
       }
     } else {
       res.status(201).json({
-        message:'all trailers for this timeslot are reserved'
-      })
+        message: "all trailers for this timeslot are reserved",
+      });
     }
   } catch (error) {
     console.error("Error creating reservation:", error);

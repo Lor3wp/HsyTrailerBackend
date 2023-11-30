@@ -2,10 +2,14 @@ const CalendarEntry = require("../schema/CalendarEntry");
 const express = require("express");
 const router = express.Router();
 
-router.post("/update-temp-reservation", async (req, res) => {
-  const { uuid, station, timeSlot, product, date } = req.body;
+// Helper function to check if there's an existing reservation
+const checkExistingReservation = async (uuid) => {
+  const existingReservation = await CalendarEntry.findOne({ uuid: uuid });
+  return !!existingReservation;
+};
 
-  const isAdapter = false;
+router.post("/update-temp-reservation", async (req, res) => {
+  const { uuid, station, timeSlot, product, date, isAdapter } = req.body;
   const isPrepaid = false;
 
   // Create a default customerInfo object with TTLFillerData
@@ -50,16 +54,16 @@ router.post("/update-temp-reservation", async (req, res) => {
     );
 
     if (updatedReservation) {
-      console.log(savedCalendarEntry);
+      console.log(updatedReservation);
       res.status(201).json({
-        message: `updating tempreservation was successful, expiration date: ${expirationDate}`,
-        savedCalendarEntry,
+        message: `Updating tempreservation was successful, expiration date: ${expirationDate}`,
+        updatedReservation,
       });
     } else {
-      res.status(500).json({ error: "Failed to save calendar entry" });
+      res.status(500).json({ error: "Failed to update calendar entry" });
     }
   } catch (error) {
-    console.error("Error creating reservation:", error);
+    console.error("Error updating reservation:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
