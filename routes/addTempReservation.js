@@ -63,6 +63,10 @@ router.post("/add-temp-reservation", async (req, res) => {
       } else {
         res.status(500).json({ error: "Failed to save calendar entry" });
       }
+    } else {
+      res.status(201).json({
+        message:'all trailers for this timeslot are reserved'
+      })
     }
   } catch (error) {
     console.error("Error creating reservation:", error);
