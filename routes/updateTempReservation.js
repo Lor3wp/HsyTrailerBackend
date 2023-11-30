@@ -46,7 +46,10 @@ router.post("/update-temp-reservation", async (req, res) => {
     const existingReservation = await CalendarEntry.findOne({ uuid: uuid });
     if (!existingReservation) {
       const savedCalendarEntry = await newCalendarEntry.save();
-      res.status(201).json({ message: "succesful temp reservation" });
+
+      res
+        .status(201)
+        .json(savedCalendarEntry, { message: "succesful temp reservation" });
     } else {
       try {
         const updatedReservation = await CalendarEntry.findOneAndUpdate(

@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/add-temp-reservation", async (req, res) => {
-  const { uuid, station, timeSlot, product, date } = req.body;
+  const { uuid, station, timeSlot, product, date, isAdapter } = req.body;
 
   // Check if there are less than 4 reservations for the given day and time slot
   try {
