@@ -1,6 +1,7 @@
 {
   "name": "hsytrailerbackend",
   "version": "1.0.0",
+  "proxy": "http://localhost:5173/",
   "description": "",
   "main": "index.js",
   "scripts": {
