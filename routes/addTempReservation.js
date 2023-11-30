@@ -5,44 +5,58 @@ const router = express.Router();
 router.post("/add-temp-reservation", async (req, res) => {
   const { uuid, station, timeSlot, product, date } = req.body;
 
-  const isAdapter = false;
-  const isPrepaid = false;
-
-  // Create a default customerInfo object with TTLFillerData
-  const defaultCustomerInfo = {
-    name: "TTLFillerData",
-    lastName: "TTLFillerData",
-    phoneNumber: "TTLFillerData",
-    email: "TTLFILLERDATA",
-    address: "TTLFillerData",
-    zipCode: "TTLFillerData",
-    city: "TTLFillerData",
-  };
-
-  const customerInfo = defaultCustomerInfo;
-
-  const expirationDate = new Date(Date.now() + 20 * 60 * 1000);
-  const newCalendarEntry = new CalendarEntry({
-    station,
-    customerInfo: {
-      name: customerInfo.name,
-      lastName: customerInfo.lastName,
-      phoneNumber: customerInfo.phoneNumber,
-      email: customerInfo.email,
-      address: customerInfo.address,
-      zipCode: customerInfo.zipCode,
-      city: customerInfo.city,
-    },
-    timeSlot,
-    product,
-    isAdapter,
-    isPrepaid,
-    date,
-    expirationDate,
-    uuid,
-  });
-
+  // Check if there are less than 4 reservations for the given day and time slot
   try {
+    const existingReservationsCount = await CalendarEntry.countDocuments({
+      station,
+      timeSlot,
+      date,
+      product,
+    });
+
+    if (existingReservationsCount >= 4) {
+      return res.status(400).json({
+        error: "Cannot add reservation, time slot is fully booked.",
+      });
+    }
+
+    const isAdapter = false;
+    const isPrepaid = false;
+
+    // Create a default customerInfo object with TTLFillerData
+    const defaultCustomerInfo = {
+      name: "TTLFillerData",
+      lastName: "TTLFillerData",
+      phoneNumber: "TTLFillerData",
+      email: "TTLFILLERDATA",
+      address: "TTLFillerData",
+      zipCode: "TTLFillerData",
+      city: "TTLFillerData",
+    };
+
+    const customerInfo = defaultCustomerInfo;
+
+    const expirationDate = new Date(Date.now() + 20 * 60 * 1000);
+    const newCalendarEntry = new CalendarEntry({
+      station,
+      customerInfo: {
+        name: customerInfo.name,
+        lastName: customerInfo.lastName,
+        phoneNumber: customerInfo.phoneNumber,
+        email: customerInfo.email,
+        address: customerInfo.address,
+        zipCode: customerInfo.zipCode,
+        city: customerInfo.city,
+      },
+      timeSlot,
+      product,
+      isAdapter,
+      isPrepaid,
+      date,
+      expirationDate,
+      uuid,
+    });
+
     const savedCalendarEntry = await newCalendarEntry.save();
 
     if (savedCalendarEntry) {
