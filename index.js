@@ -10,8 +10,12 @@ const deleteTempReservation = require("./routes/deleteTempReservation");
 const addReservation = require("./routes/addReservation");
 const CalendarEntry = require("./schema/CalendarEntry");
 const mongoose = require("mongoose");
+const cors = require("cors"); // Import the CORS middleware
 
+app.use(cors());
+app.options('*', cors()); // Handle preflight requests
 app.use(express.json());
+
 
 const availableDatesRoute = require("./routes/availableTimes");
 
