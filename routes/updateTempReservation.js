@@ -3,10 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // Helper function to check if there's an existing reservation
-const checkExistingReservation = async (uuid) => {
-  const existingReservation = await CalendarEntry.findOne({ uuid: uuid });
-  return !!existingReservation;
-};
+
 
 router.post("/update-temp-reservation", async (req, res) => {
   const { uuid, station, timeSlot, product, date, isAdapter } = req.body;
@@ -45,22 +42,31 @@ router.post("/update-temp-reservation", async (req, res) => {
     expirationDate,
     uuid,
   });
-
   try {
-    const updatedReservation = await CalendarEntry.findOneAndUpdate(
-      { uuid: uuid },
-      { $set: { ...newCalendarEntry.toObject(), _id: undefined } },
-      { new: true } // Set new to true to return the updated document
-    );
-
-    if (updatedReservation) {
-      console.log(updatedReservation);
-      res.status(201).json({
-        message: `Updating tempreservation was successful, expiration date: ${expirationDate}`,
-        updatedReservation,
-      });
+    const existingReservation = await CalendarEntry.findOne({ uuid: uuid });
+    if (!existingReservation) {
+      const savedCalendarEntry = await newCalendarEntry.save();
+      res.status(201).json({ message: "succesful temp reservation" });
     } else {
-      res.status(500).json({ error: "Failed to update calendar entry" });
+      try {
+        const updatedReservation = await CalendarEntry.findOneAndUpdate(
+          { uuid: uuid },
+          { $set: { ...newCalendarEntry.toObject(), _id: undefined } },
+          { new: true } // Set new to true to return the updated document
+        );
+
+        if (updatedReservation) {
+          console.log(updatedReservation);
+          res.status(201).json({
+            message: `Updating tempreservation was successful, expiration date: ${expirationDate}`,
+            updatedReservation,
+          });
+        } else {
+          res.status(500).json({ error: "Failed to update calendar entry" });
+        }
+      } catch (error) {
+        res.json("error");
+      }
     }
   } catch (error) {
     console.error("Error updating reservation:", error);
