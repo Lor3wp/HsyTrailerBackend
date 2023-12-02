@@ -19,6 +19,8 @@ const calendarEntrySchema = new mongoose.Schema({
   date: Date,
   rating: Number,
   feedback: String,
+  isItemReturned: Boolean,
+  returnedAt: { type: Date, default: null },
   uuid: String,
 });
 
