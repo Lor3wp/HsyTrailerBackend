@@ -12,6 +12,7 @@ const CalendarEntry = require("./schema/CalendarEntry");
 const updateReservationById = require("./routes/updateReservationById");
 const mongoose = require("mongoose");
 const cors = require("cors"); // Import the CORS middleware
+require("dotenv").config();
 
 app.use(cors());
 app.options('*', cors()); // Handle preflight requests
