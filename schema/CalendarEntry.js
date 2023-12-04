@@ -17,15 +17,15 @@ const calendarEntrySchema = new mongoose.Schema({
   isAdapter: Boolean,
   isPrepaid: Boolean,
   date: Date,
+  rating: Number,
+  feedback: String,
+  isItemReturned: Boolean,
+  returnedAt: { type: Date, default: null },
   uuid: String,
 });
 
-calendarEntrySchema.index(
-  { expirationDate: 1 },
-  { expireAfterSeconds: 20 * 60 }
-); // 20 minutes in seconds
+calendarEntrySchema.index({ expirationDate: 1 }, { expireAfterSeconds: 20 * 60 }); // 20 minutes in seconds
 
-const CalendarEntry = mongoose.model("calendarentries", calendarEntrySchema);
-
+const CalendarEntry = mongoose.model('calendarentries', calendarEntrySchema);
 
 module.exports = CalendarEntry;
