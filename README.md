@@ -334,3 +334,7 @@ Delete temporary reservation with specified uuid.
   "message": "Temp reservation deleted successfully"
 }
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Lor3wp/HsyTrailerBackend/blob/main/LICENSE) file for details.
