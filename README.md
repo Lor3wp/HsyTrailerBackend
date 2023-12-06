@@ -1,5 +1,5 @@
 # HsyTrailerBackend
-Backend for hsy trailer innovation project
+Backend for HSY trailer innovation project. Created with MongoDB & Mongoose.
 
 ## API Endpoints
 
